@@ -3,6 +3,7 @@ import { filter, map } from 'rxjs';
 import { createEntityAdapter } from './create-adapter';
 import {
   Comparer,
+  EntityMap,
   EntityMapOne,
   IdSelector,
   Predicate,
@@ -26,6 +27,12 @@ export class StoreAdapter<T> {
     map((x) => x.ids.map((id: any) => x.entities[id])),
     filter((items): items is T[] => !!items)
   );
+
+  select(id: string) {
+    return this.entities$.pipe(
+      map((x) => x.find((entity) => this.selectId(entity) == id))
+    );
+  }
 
   addOne(entity: T) {
     let state = this.store.value[this.storeKey];
@@ -86,9 +93,9 @@ export class StoreAdapter<T> {
   removeAll() {
     let state = this.store.value[this.storeKey];
 
-    this.entityAdapter.removeAll(state);
+    const newState = this.entityAdapter.removeAll(state);
 
-    this.store.set(this.storeKey, state);
+    this.store.set(this.storeKey, newState);
   }
 
   updateOne(update: Update<T>) {
@@ -127,6 +134,14 @@ export class StoreAdapter<T> {
     let state = this.store.value[this.storeKey];
 
     this.entityAdapter.mapOne(map, state);
+
+    this.store.set(this.storeKey, state);
+  }
+
+  mapMany(map: EntityMap<T>) {
+    let state = this.store.value[this.storeKey];
+
+    this.entityAdapter.mapMany(map, state);
 
     this.store.set(this.storeKey, state);
   }

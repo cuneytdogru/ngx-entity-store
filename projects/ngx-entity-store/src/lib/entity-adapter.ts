@@ -1,6 +1,7 @@
 import { Predicate } from '@angular/core';
 import {
   Comparer,
+  EntityMap,
   EntityMapOne,
   EntityState,
   IdSelector,
@@ -150,6 +151,21 @@ export class EntityAdapter<T> {
       },
       state
     );
+  }
+
+  mapMany(updatesOrMap: EntityMap<T>, state: EntityState<T>) {
+    const updates: Update<T>[] = state.ids.reduce(
+      (changes: any[], id: string | number) => {
+        const change = updatesOrMap(state.entities[id]!);
+        if (change !== state.entities[id]) {
+          changes.push({ id, changes: change });
+        }
+        return changes;
+      },
+      []
+    );
+
+    return this.updateMany(updates, state);
   }
 
   private merge(models: T[], state: EntityState<T>): void {
