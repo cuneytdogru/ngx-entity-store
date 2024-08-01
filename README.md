@@ -82,3 +82,8 @@ You can use the below methods to modify states of the entites:
     mapOne(map: EntityMapOne<T>): void;
     mapMany(map: EntityMap<T>): void;
  ```
+
+## Demo Project
+You can see the implementation details in the demo project under the projects folder.
+
+![screenshot](https://github.com/user-attachments/assets/390e7170-467b-4dcf-90f7-3153eb69d774)
