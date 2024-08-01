@@ -1,0 +1,93 @@
+:host {
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+
+div.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  width: 100%;
+
+  margin: 1rem;
+  gap: 1rem;
+
+  div.product {
+    display: flex;
+    flex-direction: column;
+
+    justify-content: center;
+
+    width: 100%;
+
+    gap: 1rem;
+
+    h1 {
+      text-align: center;
+    }
+
+    &-cards {
+      display: flex;
+      flex-direction: row;
+
+      gap: 1rem;
+      justify-content: center;
+
+      max-height: 500px;
+    }
+  }
+
+  div.table {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    div.checkout-actions {
+      display: flex;
+      flex-direction: row;
+
+      width: 100%;
+
+      justify-content: end;
+
+      margin-bottom: 0.5rem;
+
+      gap: 1rem;
+    }
+
+    table {
+      width: 100%;
+
+      div.count {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        max-width: 100px;
+      }
+
+      div.discount {
+        padding-top: 0.5rem;
+
+        .original-price {
+          color: red;
+        }
+
+        .discount-price {
+          color: green;
+        }
+      }
+
+      div.no-data-row {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        margin: 1rem;
+
+        justify-content: center;
+        align-items: center;
+      }
+    }
+  }
+}

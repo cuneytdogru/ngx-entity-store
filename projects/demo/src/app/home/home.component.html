@@ -1,0 +1,116 @@
+<div class="container">
+  <div class="product">
+    <h1>Products</h1>
+    <div class="product-cards">
+      <app-product-card
+        *ngFor="let product of products$ | async"
+        [product]="product"
+        (addToCart)="addCheckoutItem($event)"
+      >
+      </app-product-card>
+    </div>
+  </div>
+
+  <div class="table">
+    <h1>Checkout</h1>
+    <div class="checkout-actions">
+      <button
+        mat-flat-button
+        (click)="applyDiscount(20)"
+        color="primary"
+        [disabled]="discountApplied"
+      >
+        <mat-icon>cash</mat-icon>
+        Apply Welcome Coupon ({{ discountPercent }}% Discount)
+      </button>
+
+      <button mat-flat-button (click)="clearCheckoutItems()" color="warn">
+        <mat-icon>delete</mat-icon>
+        Clear All
+      </button>
+    </div>
+    <table
+      mat-table
+      [dataSource]="(checkoutItems$ | async) ?? []"
+      class="mat-elevation-z8"
+    >
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef>Product Name</th>
+        <td mat-cell *matCellDef="let element">{{ element.productName }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="count">
+        <th mat-header-cell *matHeaderCellDef class="count">Count</th>
+        <td mat-cell *matCellDef="let element">
+          <div class="count">
+            <button
+              mat-icon-button
+              (click)="increaseCheckoutItemCount(element)"
+            >
+              <mat-icon>keyboard_arrow_up</mat-icon>
+            </button>
+            {{ element.count }}
+            <button
+              mat-icon-button
+              (click)="decreaseCheckoutItemCount(element)"
+            >
+              <mat-icon>keyboard_arrow_down</mat-icon>
+            </button>
+          </div>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="price">
+        <th mat-header-cell *matHeaderCellDef>Unit Price</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.price | currency }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="total">
+        <th mat-header-cell *matHeaderCellDef>Total</th>
+        <td mat-cell *matCellDef="let element">
+          <span *ngIf="!element.discount">{{ element.total | currency }}</span>
+
+          <div *ngIf="element.discount" class="discount">
+            <p class="text-line-through original-price">
+              {{ element.total | currency }}
+            </p>
+            <p class="discount-price">
+              {{ element.total * ((100 - element.discount) / 100) | currency }}
+            </p>
+          </div>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>Actions</th>
+        <td mat-cell *matCellDef="let element">
+          <button mat-icon-button (click)="deleteCheckoutItem(element)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="disclaimer">
+        <td mat-footer-cell *matFooterCellDef colspan="2">
+          <p>Every count of product added into cart increases its price.</p>
+          <p *ngIf="discountApplied" class="text-green">
+            %20 discount applied.
+          </p>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      <tr *matNoDataRow>
+        <td [attr.colspan]="displayedColumns.length">
+          <div class="no-data-row">No data.</div>
+        </td>
+      </tr>
+      <ng-container>
+        <tr mat-footer-row *matFooterRowDef="['disclaimer']"></tr
+      ></ng-container>
+    </table>
+  </div>
+</div>

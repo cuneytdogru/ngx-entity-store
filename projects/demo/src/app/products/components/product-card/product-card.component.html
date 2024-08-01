@@ -1,0 +1,38 @@
+<mat-card class="product">
+  <mat-card-header>
+    <mat-card-title>{{ product.name }}</mat-card-title>
+    <mat-card-subtitle>{{ product.price | currency }}</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="content" [innerHTML]="product.description"></div>
+
+    <div class="count">
+      <ng-container [formGroup]="form">
+        <mat-form-field>
+          <mat-label>Count</mat-label>
+          <input
+            matInput
+            type="number"
+            placeholder="Count"
+            max="100"
+            formControlName="count"
+          />
+        </mat-form-field>
+      </ng-container>
+      <h2>
+        {{ product.price * form.value.count! | currency }}
+      </h2>
+    </div>
+  </mat-card-content>
+  <mat-card-actions class="actions">
+    <button
+      mat-flat-button
+      color="primary"
+      (click)="add()"
+      [disabled]="this.form.invalid"
+    >
+      <mat-icon>add_shopping_cart</mat-icon>
+      Add
+    </button>
+  </mat-card-actions>
+</mat-card>
