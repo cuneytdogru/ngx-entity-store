@@ -10,7 +10,7 @@ import { Product } from '../models/product';
 })
 export class ProductsService {
   private readonly productSorter: Comparer<Product> = (a, b) =>
-    b.name > a.name ? -1 : 1;
+    a.name.localeCompare(b.name);
 
   private readonly productSelector: IdSelector<Product> = (p) => p.id;
 
@@ -46,15 +46,12 @@ export class ProductsService {
   }
 
   async decreasePrice(productId: string, count: number) {
-    var product = await firstValueFrom(this.storeAdapter.select(productId));
-
-    if (!product) return;
-
-    var newPrice = product.price - 100 * count;
-
-    this.storeAdapter.updateOne({
-      id: product.id,
-      changes: { price: newPrice },
+    //As an alternate to increasePrice(), update can be done using mapOne().
+    this.storeAdapter.mapOne({
+      id: productId,
+      map: (entity) => {
+        return { ...entity, price: entity.price - 100 * count };
+      },
     });
   }
 

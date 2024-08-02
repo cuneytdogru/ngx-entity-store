@@ -1,6 +1,6 @@
-# Angular Applicaiton Store + Entity Adapter
+# Angular Application Store + Entity Adapter
 
-This library provides simple store and entity adapter for the applicaitons that do not want to use NgRx but still wants to use its store and entity features inside the project. 
+This library provides simple store and entity adapter for the applications that do not want to use NgRx but still wants to use its store and entity features inside the project. 
 
 Most of the codes managing records via entity adapter directly copied from NgRX/entity package.
 
@@ -64,7 +64,7 @@ Most of the codes managing records via entity adapter directly copied from NgRX/
     ```
 
 ## Entity Adapter Methods
-You can use the below methods to modify states of the entites:
+You can use the below methods to modify states of the entities:
 ```typescript
     select(id: string): Observable<T | undefined>;
     addOne(entity: T): void;

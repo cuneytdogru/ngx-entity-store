@@ -8,7 +8,7 @@ import { CheckoutItem } from '../models/checkout-item';
 })
 export class CheckoutsService {
   private readonly checkoutSorter: Comparer<CheckoutItem> = (a, b) =>
-    b.productName > a.productName ? -1 : 1;
+    a.productName.localeCompare(b.productName) || a.id.localeCompare(b.id);
 
   private readonly checkoutSelector: IdSelector<CheckoutItem> = (c) => c.id;
 
@@ -39,8 +39,8 @@ export class CheckoutsService {
 
     this.storeAdapter.updateOne({
       id: item.id,
+      //Only the updated fields needs to be set;
       changes: {
-        ...item,
         count: item.count + 1,
         total: item.total + item.price,
       },
@@ -50,12 +50,17 @@ export class CheckoutsService {
   decreaseCheckoutItemCount(item: CheckoutItem) {
     if (item.count < 2) return;
 
-    this.storeAdapter.updateOne({
+    // Same behavior can be achieved using mapOne,
+    // while updateOne() using the object passed to calculate total,
+    // mapOne uses the object from store.
+    this.storeAdapter.mapOne({
       id: item.id,
-      changes: {
-        ...item,
-        count: item.count - 1,
-        total: item.total - item.price,
+      map: (entity) => {
+        return {
+          ...entity,
+          count: entity.count - 1,
+          total: entity.total - entity.price,
+        };
       },
     });
   }
