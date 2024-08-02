@@ -201,18 +201,4 @@ export class EntityAdapter<T> {
       state.entities[this.selectId(model)] = model;
     });
   }
-
-  // public uniqueAndSort<T extends BaseDto>(data: T[]): T[] {
-  //   return this.sort(this.unique(data));
-  // }
-
-  // public unique<T extends BaseDto>(data: T[]): T[] {
-  //   return data.filter((v, i, a) => a.findIndex((v2) => v2.id === v.id) === i);
-  // }
-
-  // public sort<T extends BaseDto>(data: T[]): T[] {
-  //   return data.sort(
-  //     (a, b) => +new Date(b.createdDate) - +new Date(a.createdDate)
-  //   );
-  // }
 }
