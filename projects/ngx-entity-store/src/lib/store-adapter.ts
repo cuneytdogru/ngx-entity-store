@@ -28,7 +28,7 @@ export class StoreAdapter<T> {
     filter((items): items is T[] => !!items)
   );
 
-  select(id: string) {
+  select(id: string | number) {
     return this.entities$.pipe(
       map((x) => x.find((entity) => this.selectId(entity) == id))
     );
