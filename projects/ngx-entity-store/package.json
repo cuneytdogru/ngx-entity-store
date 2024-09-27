@@ -1,6 +1,9 @@
 {
   "name": "ngx-entity-store",
-  "version": "0.0.1",
+  "version": "1.0.2",
+  "author": "Cüneyt DOĞRU <cuneytdogru@gmail.com>",
+  "license": "ISC",
+  "description": "Angular store and entity adapter library",
   "peerDependencies": {
     "@angular/common": "^15.2.0",
     "@angular/core": "^15.2.0"
@@ -8,5 +11,20 @@
   "dependencies": {
     "tslib": "^2.3.0"
   },
-  "sideEffects": false
+  "sideEffects": false,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cuneytdogru/ngx-entity-store.git"
+  },
+  "homepage": "https://github.com/cuneytdogru/ngx-entity-store",
+  "keywords": [
+    "Angular",
+    "Store",
+    "EntityStore",
+    "Storage",
+    "StoreAdapter",
+    "SimpleStore",
+    "Entity",
+    "Library"
+  ]
 }
