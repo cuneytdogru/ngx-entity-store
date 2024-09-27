@@ -54,11 +54,21 @@ Most of the codes managing records via entity adapter directly copied from NgRX/
       increaseCheckoutItemCount(item: CheckoutItem) {
         this.storeAdapter.updateOne({
           id: item.id,
+          //Only the updated fields needs to be set;
           changes: {
-            ...item,
             count: item.count + 1,
             total: item.total + item.price,
           },
+        });
+      }
+
+      //Update every record in the store;
+      applyDiscount(percent: number) {
+        this.storeAdapter.mapMany((entity) => {
+          return {
+            ...entity,
+            discount: percent,
+          };
         });
       }
     ```
