@@ -7,6 +7,7 @@ export function createEntityAdapter<T>(
   sort?: Comparer<T>
 ): EntityAdapter<T> {
   selectId = selectId ?? ((entity: any) => entity.id);
+  sort = sort ?? ((a, b) => 0);
 
   return new EntityAdapter<T>(selectId, sort);
 }
