@@ -10,13 +10,13 @@ on:
     branches: [ "master" ]
 
 jobs:
-  build:
+  build-and-test:
 
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
-        node-version: [18.x, 20.x, 22.x]
+        node-version: [22.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
@@ -26,6 +26,17 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-    - run: npm ci
-    - run: npm run build --if-present
-    - run: npm test
+        
+    - name: Install Angular CLI
+      run: npm install -g @angular/cli
+      
+    - name: Install dependencies  
+      run: npm ci
+
+    - name: Build Angular Project
+      run: ng build ngx-entity-store
+
+    - name: Test Angular Project
+      run: |
+        cd projects/ngx-entity-store 
+        ng test
